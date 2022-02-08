@@ -9,7 +9,7 @@ import { CategorySelect } from '../CategorySelect'
 import { InputForm } from '../../components/Form/InputForm';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface FormData {
     [name: string]: any;
@@ -18,7 +18,7 @@ interface FormData {
 const schema = Yup.object().shape({
     name: Yup.
         string().
-        required('Nome é obrigátório'),
+        required('Nome é obrigátório!'),
 
     amount: Yup.
         number().
