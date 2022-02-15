@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { FlatList, FlatListProps } from 'react-native';
+import { FlatList, FlatListProps, TouchableOpacity } from 'react-native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { Feather } from '@expo/vector-icons';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
@@ -55,7 +55,9 @@ export const UserName = styled.Text`
     color: ${({ theme }) => theme.colors.shape};
 `;
 
-export const LogoutButton = styled(BorderlessButton)``;
+export const LogoutButton = styled.TouchableOpacity`
+    flex: 1;
+`;
 
 export const Icon = styled(Feather)`
     color: ${({ theme }) => theme.colors.secondary};

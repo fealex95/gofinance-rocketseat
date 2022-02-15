@@ -1,7 +1,7 @@
 import React from "react";
 import { HighLightCard } from "../../components/HighLightCard";
 import { TransactionCard, ITrasactionCardProps } from "../../components/TransactionCard";
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import {
     Container,
     Header,
@@ -69,9 +69,11 @@ export function Dashboard() {
                             <UserName>Kamila</UserName>
                         </User>
                     </UserInfo>
-                    <LogoutButton>
-                        <Icon name="power" />
-                    </LogoutButton>
+                    <GestureHandlerRootView>
+                        <LogoutButton onPress={() => { }}>
+                            <Icon name="power" />
+                        </LogoutButton>
+                    </GestureHandlerRootView>
                 </UserWrapper>
             </Header>
             <HighLightCards>
