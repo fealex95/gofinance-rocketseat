@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Container, Header, Title, Form, Fields, TransactionTypes } from './styles';
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native'
@@ -10,6 +10,7 @@ import { InputForm } from '../../components/Form/InputForm';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface FormData {
     [name: string]: any;
@@ -26,6 +27,8 @@ const schema = Yup.object().shape({
         positive('O valor não pode ser negativo').
         required('O valor é obrigátório')
 })
+
+const dataKey = "@gofinance:transaction"
 
 export function Register() {
 
@@ -57,7 +60,7 @@ export function Register() {
         setCategoryModalOpen(false);
     }
 
-    function handleRegister({ name, amount }: FormData) {
+    async function handleRegister({ name, amount }: FormData) {
 
         if (!transactionType) {
             return Alert.alert("Atenção", "Escolha o tipo de transação");
@@ -74,8 +77,22 @@ export function Register() {
             category: category.key
         }
 
-        console.log(data);
+        try{
+            await AsyncStorage.setItem(dataKey, JSON.stringify(data));
+        }catch(error){
+            console.log(error);
+            Alert.alert("Não foi possível salvar!");
+        }
     }
+
+    useEffect(() => {
+        async function loadData(){
+            const data = await AsyncStorage.getItem(dataKey);
+            console.log(JSON.parse(data!));
+        }
+
+        loadData();
+    }, [])
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

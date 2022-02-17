@@ -42,13 +42,13 @@ export function AppRoutes() {
                 }}
             />
 
-            { /*} <Screen 
+            <Screen 
                 name="Resumo"
                 component={Register}
                 options={{
                     tabBarIcon: (({size, color}) => <MaterialIcons name="pie-chart" size={size} color={color}/>)
                 }} 
-            />*/}
+            />
         </Navigator>
     )
 }
