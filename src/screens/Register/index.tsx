@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 
 import { useForm } from 'react-hook-form';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 interface FormData {
     [name: string]: any;
@@ -32,7 +32,7 @@ const schema = Yup.object().shape({
         required('O valor é obrigátório')
 })
 
-const dataKey = "@gofinance:transaction";
+
 
 export function Register() {
 
@@ -55,7 +55,7 @@ export function Register() {
         resolver: yupResolver(schema)
     });
 
-    function handleTransactionTypeSelect(type: 'up' | 'down') {
+    function handleTransactionTypeSelect(type: 'positive' | 'negative') {
         setTransactionType(type)
     }
 
@@ -69,6 +69,8 @@ export function Register() {
 
     async function handleRegister({ name, amount }: FormData) {
 
+        const dataKey = "@gofinance:transaction";
+
         if (!transactionType) {
             return Alert.alert("Atenção", "Escolha o tipo de transação");
         }
@@ -81,16 +83,16 @@ export function Register() {
             id: String(uuid.v4()),
             name,
             amount,
-            transactionType,
+            type: transactionType,
             category: category.key,
             date: new Date()
         }
 
-        try{
+        try {
             const data = await AsyncStorage.getItem(dataKey);
             const currentData = data ? JSON.parse(data) : [];
             const dataFormatted = [
-                ...currentData, 
+                ...currentData,
                 newTransaction
             ];
             await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
@@ -99,13 +101,13 @@ export function Register() {
             setCategory({
                 key: 'category',
                 name: 'Categoria',
-        
+
             });
             reset();
 
             navigation.navigate('Listagem');
 
-        }catch(error){
+        } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível salvar!");
         }
@@ -139,14 +141,14 @@ export function Register() {
                             <TransactionTypeButton
                                 title="Income"
                                 type="up"
-                                onPress={() => handleTransactionTypeSelect('up')}
-                                isActive={transactionType === 'up'}
+                                onPress={() => handleTransactionTypeSelect('positive')}
+                                isActive={transactionType === 'positive'}
 
                             />
                             <TransactionTypeButton
                                 title="Outcome" type="down"
-                                onPress={() => handleTransactionTypeSelect('down')}
-                                isActive={transactionType === 'down'}
+                                onPress={() => handleTransactionTypeSelect('negative')}
+                                isActive={transactionType === 'negative'}
                             />
                         </TransactionTypes>
 
