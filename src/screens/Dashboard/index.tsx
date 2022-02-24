@@ -64,12 +64,8 @@ export function Dashboard() {
         const response = await AsyncStorage.getItem(dataKey);
         const transactions = response ? JSON.parse(response) : [];
 
-
-
         let entriesTotal = 0;
         let expensivesTotal = 0;
-
-
 
         const transactionFormatted: DataListProps[] = transactions.map((item: DataListProps) => {
 
@@ -135,8 +131,6 @@ export function Dashboard() {
         })
 
         setIsLoading(false);
-
-
     }
 
     useEffect(() => {
