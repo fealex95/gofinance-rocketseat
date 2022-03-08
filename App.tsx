@@ -20,6 +20,7 @@ import { Register } from './src/screens/Register';
 import { CategorySelect } from './src/screens/CategorySelect';
 import { Signin } from './src/screens/Signin';
 
+import { AuthProvider, useAuth } from './src/hooks/auth'
 
 export default function App() {
 
@@ -37,7 +38,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <StatusBar barStyle="light-content" />
-        <Signin />
+        <AuthProvider>
+          <Signin />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
