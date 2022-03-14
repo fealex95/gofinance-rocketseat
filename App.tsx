@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
-import { NavigationContainer } from '@react-navigation/native';
+import { Routes } from './src/routes';
 import { AppRoutes } from './src/routes/app.routes';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
@@ -18,7 +18,7 @@ import theme from './src/global/styles/theme'
 import { Dashboard } from './src/screens/Dashboard';
 import { Register } from './src/screens/Register';
 import { CategorySelect } from './src/screens/CategorySelect';
-import { Signin } from './src/screens/Signin';
+import { SignIn } from './src/screens/SignIn';
 
 import { AuthProvider, useAuth } from './src/hooks/auth'
 
@@ -36,12 +36,10 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <StatusBar barStyle="light-content" />
-        <AuthProvider>
-          <Signin />
-        </AuthProvider>
-      </NavigationContainer>
+      <StatusBar barStyle="light-content" />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

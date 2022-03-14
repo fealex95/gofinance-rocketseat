@@ -19,7 +19,7 @@ import {
     FooterWrapper
 } from './styles';
 
-export function Signin() {
+export function SignIn() {
 
     const { signInWithGoogle, signInWithApple } = useAuth();
 
