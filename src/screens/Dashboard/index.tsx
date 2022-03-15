@@ -6,6 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from "@react-navigation/native";
 import { useTheme } from "styled-components";
+import { useAuth } from "../../hooks/auth";
 import {
     Container,
     Header,
@@ -24,6 +25,7 @@ import {
     LoadContainer
 } from './styles'
 import theme from "../../global/styles/theme";
+
 
 export interface DataListProps extends ITrasactionCardProps {
     id: string;
@@ -45,6 +47,7 @@ export function Dashboard() {
     const [transactions, setTransactions] = useState<DataListProps[]>([]);
     const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
     const theme = useTheme();
+    const {signOut} = useAuth();
 
     function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative') {
         const lastTransaction = new Date(
@@ -169,7 +172,7 @@ export function Dashboard() {
                                     </User>
                                 </UserInfo>
                                 <GestureHandlerRootView>
-                                    <LogoutButton onPress={() => { }}>
+                                    <LogoutButton onPress={signOut}>
                                         <Icon name="power" />
                                     </LogoutButton>
                                 </GestureHandlerRootView>
