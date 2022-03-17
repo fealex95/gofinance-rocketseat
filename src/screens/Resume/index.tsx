@@ -24,6 +24,7 @@ import { categories } from "../../utils/categories";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from 'styled-components'
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useAuth } from "../../hooks/auth";
 
 
 
@@ -52,6 +53,8 @@ export function Resume() {
 
     const theme = useTheme();
 
+    const { user } = useAuth();
+
     function handleDateChange(action: 'next' | 'prev'){
         
         if(action === 'next'){
@@ -63,7 +66,7 @@ export function Resume() {
 
     async function loadData() {
         setIsLoading(true);
-        const dataKey = "@gofinance:transaction";
+        const dataKey = `@gofinance:transaction_user:${user.id}`;
         const response = await AsyncStorage.getItem(dataKey);
         const responseFormatted = response ? JSON.parse(response) : [];
 

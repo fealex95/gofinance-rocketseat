@@ -54,18 +54,18 @@ function AuthProvider({ children }: AuthProviderProps) {
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
             const { type, params } = await AuthSession.startAsync({ authUrl }) as AuthorizationResponse
-
+            
             if (type === 'success') {
                 const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`);
 
-                const userInfo = await response.json();
+                const userInfo = await response.json();                
 
                 const userLogged = {
                     id: userInfo.id,
                     email: userInfo.email,
                     name: userInfo.given_name,
                     photo: userInfo.picture
-                }
+                };
 
                 setUser(userLogged);
 
@@ -89,11 +89,14 @@ function AuthProvider({ children }: AuthProviderProps) {
             });
 
             if (credential) {
+                const name = credential.fullName!.givenName!;
+                const photo = `https://ui-avatars.com/api/?name=${encodeURI(name)}&length=1`;
+
                 const userLogged = {
                     id: String(credential.user),
                     email: credential.email!,
-                    name: credential.fullName!.givenName!,
-                    photo: undefined
+                    name,
+                    photo
                 }
 
                 setUser(userLogged);
@@ -105,22 +108,25 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
 
     async function signOut(){
-        setUser({ } as User);
-
         await AsyncStorage.removeItem(userStorageKey);
-        
+
+        const userLogged = await AsyncStorage.getItem(userStorageKey);       
+
+        setUser({} as User);
+
         console.log(user);
+        //console.log(user);
         
     }
 
     useEffect(() => {
         async function loadUserStorageData() {
-            const userStoraged = await AsyncStorage.getItem(userStorageKey);
+            setUser({} as User);
+            const userStoraged = await AsyncStorage.getItem(userStorageKey);            
 
             if (userStoraged) {
                 const userLogged = JSON.parse(userStoraged) as User;
-                setUser(userLogged)
-                console.log("passou por aqui!");
+                setUser(userLogged);
             }
 
             setUserStorageLoading(false);

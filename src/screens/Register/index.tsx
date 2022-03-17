@@ -15,6 +15,7 @@ import uuid from 'react-native-uuid';
 
 import { useForm } from 'react-hook-form';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../hooks/auth';
 
 interface FormData {
     [name: string]: any;
@@ -46,6 +47,8 @@ export function Register() {
 
     const navigation = useNavigation();
 
+    const { user } = useAuth();
+
     const {
         control,
         handleSubmit,
@@ -69,7 +72,7 @@ export function Register() {
 
     async function handleRegister({ name, amount }: FormData) {
 
-        const dataKey = "@gofinance:transaction";
+        const dataKey = `@gofinance:transaction_user:${user.id}`;
 
         if (!transactionType) {
             return Alert.alert("Atenção", "Escolha o tipo de transação");

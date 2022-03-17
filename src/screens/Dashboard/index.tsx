@@ -47,23 +47,27 @@ export function Dashboard() {
     const [transactions, setTransactions] = useState<DataListProps[]>([]);
     const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
     const theme = useTheme();
-    const {signOut} = useAuth();
+    const {signOut, user} = useAuth();
 
     function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative') {
+        const collectionFiltered = collection.filter((transaction) => transaction.type === type);
+        
         const lastTransaction = new Date(
             Math.max.apply(Math,
-                collection
-                    .filter((transaction) => transaction.type === type)
-                    .map((transaction) => new Date(transaction.date).getTime())
+                collectionFiltered.map((transaction) => new Date(transaction.date).getTime())
             )
         );
+
+        if(collectionFiltered.length === 0){
+            return 0;
+        }
 
         return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString('pt-br', { month: 'long' })}`;
     }
 
     async function loadTransactions() {
 
-        const dataKey = "@gofinance:transaction";
+        const dataKey = `@gofinance:transaction_user:${user.id}`;
         const response = await AsyncStorage.getItem(dataKey);
         const transactions = response ? JSON.parse(response) : [];
 
@@ -113,7 +117,7 @@ export function Dashboard() {
                     currency: 'BRL'
                 }),
 
-                lastTransaction: `Última entrada dia ${lastTransactionEntries}`
+                lastTransaction: lastTransactionEntries === 0  ? 'Não há transações' : `Última entrada dia ${lastTransactionEntries}`
             },
 
             expensives: {
@@ -121,7 +125,7 @@ export function Dashboard() {
                     style: 'currency',
                     currency: 'BRL'
                 }),
-                lastTransaction: `Última saída dia ${lastTransactionEntries}`
+                lastTransaction: lastTransactionExpensives === 0  ? 'Não há transações' : `Última saída dia ${lastTransactionEntries}`
             },
 
             total: {
@@ -129,21 +133,21 @@ export function Dashboard() {
                     style: 'currency',
                     currency: 'BRL'
                 }),
-                lastTransaction: `01 à ${lastTransactionExpensives}`
+                lastTransaction: lastTransactionEntries === 0  ? 'Não há transações' : `01 à ${lastTransactionExpensives || lastTransactionEntries}`
             }
         })
 
         setIsLoading(false);
     }
 
-    useEffect(() => {
+   /* useEffect(() => {
         loadTransactions();
 
         //const dataKey = "@gofinance:transaction";
         //AsyncStorage.removeItem(dataKey);
 
         // console.log(data)
-    }, []);
+    }, []);*/
 
     useFocusEffect(useCallback(() => {
         loadTransactions();
@@ -165,10 +169,10 @@ export function Dashboard() {
                         <Header>
                             <UserWrapper>
                                 <UserInfo>
-                                    <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/21689807?v=4' }} />
+                                    <Photo source={{ uri: user.photo }} />
                                     <User>
                                         <UserGreting>Olá, </UserGreting>
-                                        <UserName>Kamila</UserName>
+                                        <UserName>{user.name}</UserName>
                                     </User>
                                 </UserInfo>
                                 <GestureHandlerRootView>

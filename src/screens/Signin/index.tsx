@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ActivityIndicator, Alert } from 'react-native';
+import { ActivityIndicator, Alert, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import AppleSvg from '../../assets/apple.svg';
@@ -30,9 +30,9 @@ export function SignIn() {
         try {
             setIsLoading(true);
             return await signInWithGoogle();
+
         } catch (error) {
             Alert.alert(`Erro: ${error}`);
-        }finally{
             setIsLoading(false)
         }
     }
@@ -43,8 +43,7 @@ export function SignIn() {
             return await signInWithApple();
         } catch (error) {
             Alert.alert(`Erro: ${error}`);
-        }finally{
-            setIsLoading(false);
+            setIsLoading(false)
         }
     }
 
@@ -72,7 +71,7 @@ export function SignIn() {
             <Footer>
                 <FooterWrapper>
                     <SigninSocialButton title="Entrar com Google" svg={GoogleSvg} onPress={handleSignInWithGoogle} />
-                    <SigninSocialButton title="Entrar com Apple" svg={AppleSvg} onPress={handleSignInWithApple} />
+                    { Platform.OS === 'ios' && <SigninSocialButton title="Entrar com Apple" svg={AppleSvg} onPress={handleSignInWithApple} /> }
                 </FooterWrapper>
                 {
                     isLoading && <ActivityIndicator color={theme.colors.shape} style={{marginTop: 18}}/>
