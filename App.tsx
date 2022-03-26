@@ -2,7 +2,6 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import { Routes } from './src/routes';
-import { AppRoutes } from './src/routes/app.routes';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
@@ -30,7 +29,7 @@ export default function App() {
     Poppins_700Bold
   });
 
-  const {userStorageLoading} = useAuth();
+  const { userStorageLoading } = useAuth();
 
   if (!fontsLoaded || userStorageLoading) {
     return <AppLoading />;
