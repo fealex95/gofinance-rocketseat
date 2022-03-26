@@ -14,10 +14,6 @@ import {
 } from '@expo-google-fonts/poppins';
 
 import theme from './src/global/styles/theme'
-import { Dashboard } from './src/screens/Dashboard';
-import { Register } from './src/screens/Register';
-import { CategorySelect } from './src/screens/CategorySelect';
-import { SignIn } from './src/screens/SignIn';
 
 import { AuthProvider, useAuth } from './src/hooks/auth'
 
