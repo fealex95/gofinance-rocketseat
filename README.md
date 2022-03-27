@@ -12,7 +12,7 @@ Pontos aprendidos com projeto:
 - Autenticação com Apple
 - Context API 
 - Validação de formularios com YUP
-- Envio de formularios com alta performance com react-hook-forms
+- Envio de formularios de alta performance com react-hook-forms
 - Criação de gráficos com victory-native
 ## Importante
 
