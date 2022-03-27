@@ -10,6 +10,7 @@ Pontos aprendidos com projeto:
 
 - Autenticação com Google
 - Autenticação com Apple
+- Utilização do Styled Components
 - Context API 
 - Validação de formularios com YUP
 - Envio de formularios de alta performance com react-hook-forms
